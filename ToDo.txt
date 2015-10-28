@@ -5,7 +5,7 @@ What is needed for the PSP version to work at a descent speed :
 - Rebind keyboard map to PSP map
 
 Thing done :
-- Use the 64mb on the PSP
+- Use the 64mb of the PSP slim, brite
 - HQx shaders are gone.
 
 Main project related : 
