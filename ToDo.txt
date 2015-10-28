@@ -1,2 +1,13 @@
-Delete HQx Shaders, useless, PSP wouldn't handle this anyway.
-Delete SPC support, it is stated to take some ressources
+What is needed for the PSP version to work at a descent speed :
+- Delete HQx Shaders, useless, PSP wouldn't handle this anyway.
+- Delete SPC support, it is stated to take some ressources and it is useless since IT replaced it
+- Rewrite the Audio & Video and apply PSP resolution (The worst part, Navi's Quest port will help)
+- Rebind keyboard map to PSP map
+
+Thing done :
+- Use the 64mb on the PSP
+- HQx shaders are gone.
+
+Main project related : 
+- Delete some other things, there will be another version of Solarus PSP for my project, performance wise
+- Delete IT support, project work with OGG, supported by the PSP too
