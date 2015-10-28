@@ -1,0 +1,2 @@
+Delete HQx Shaders, useless, PSP wouldn't handle this anyway.
+Delete SPC support, it is stated to take some ressources
