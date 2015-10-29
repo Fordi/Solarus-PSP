@@ -41,9 +41,10 @@ PSP_MAIN_THREAD_STACK_SIZE_KB(192);
 
 //deleted print_help
 /* PSP Callbacks */
+bool widescreen = false // stretch quest to fit the whole screen
 /* Exit callback */
 int exit_callback(int arg1, int arg2, void *common) {
-    gLoop = false;
+	sceKernelExitGame();
 	return 0;
 }
 
@@ -96,6 +97,7 @@ int main(int argc, char** argv) {
 
   // Run the main loop.
   MainLoop(args).run(); // run the game
+  
   sceKernelExitGame();
 
   return 0;
