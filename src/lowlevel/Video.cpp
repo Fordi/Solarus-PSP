@@ -18,10 +18,6 @@
 #include "solarus/lowlevel/VideoMode.h"
 #include "solarus/lowlevel/Rectangle.h"
 #include "solarus/lowlevel/Size.h"
-#include "solarus/lowlevel/Scale2xFilter.h"
-#include "solarus/lowlevel/Hq2xFilter.h"
-#include "solarus/lowlevel/Hq3xFilter.h"
-#include "solarus/lowlevel/Hq4xFilter.h"
 #include "solarus/lowlevel/Surface.h"
 #include "solarus/lowlevel/Color.h"
 #include "solarus/lowlevel/QuestFiles.h"
@@ -168,30 +164,7 @@ void initialize_video_modes() {
       nullptr,
       nullptr
   );
-  all_video_modes.emplace_back(
-      "scale2x",
-      quest_size * 2,
-      std::unique_ptr<PixelFilter>(new Scale2xFilter()),
-      nullptr
-  );
-  all_video_modes.emplace_back(
-      "hq2x",
-      quest_size * 2,
-      std::unique_ptr<PixelFilter>(new Hq2xFilter()),
-      nullptr
-  );
-  all_video_modes.emplace_back(
-      "hq3x",
-      quest_size * 3,
-      std::unique_ptr<PixelFilter>(new Hq3xFilter()),
-      nullptr
-  );
-  all_video_modes.emplace_back(
-      "hq4x",
-      quest_size * 4,
-      std::unique_ptr<PixelFilter>(new Hq4xFilter()),
-      nullptr
-  );
+
   default_video_mode = &all_video_modes[0];
   // TODO If shaders are enabled, use a C++ shader version of Scale2x and Hq4x instead.
 

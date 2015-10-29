@@ -19,7 +19,6 @@
 
 #include "solarus/Common.h"
 #include "solarus/lowlevel/ItDecoder.h"
-#include "solarus/lowlevel/SpcDecoder.h"
 #include "solarus/lowlevel/Sound.h"
 #include "solarus/lua/ScopedLuaRef.h"
 #include <memory>
@@ -50,7 +49,6 @@ class Music {
      */
     enum Format {
       NO_FORMAT,        /**< No music. */
-      SPC,              /**< Original Snes music. */
       IT,               /**< Impulse Tracker module. */
       OGG               /**< Ogg Vorbis. */
     };
@@ -104,7 +102,6 @@ class Music {
     void set_paused(bool pause);
     void set_callback(const ScopedLuaRef& callback_ref);
 
-    void decode_spc(ALuint destination_buffer, ALsizei nb_samples);
     void decode_it(ALuint destination_buffer, ALsizei nb_samples);
     void decode_ogg(ALuint destination_buffer, ALsizei nb_samples);
 
@@ -124,8 +121,7 @@ class Music {
     ALuint buffers[nb_buffers];                  /**< multiple buffers used to stream the music */
     ALuint source;                               /**< the OpenAL source streaming the buffers */
 
-    static std::unique_ptr<SpcDecoder>
-        spc_decoder;                             /**< the SPC decoder */
+
     static std::unique_ptr<ItDecoder>
         it_decoder;                              /**< the IT decoder */
     static float volume;                         /**< volume of musics (0.0 to 1.0) */

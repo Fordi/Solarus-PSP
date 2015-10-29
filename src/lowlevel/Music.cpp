@@ -15,7 +15,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "solarus/lowlevel/Music.h"
-#include "solarus/lowlevel/SpcDecoder.h"
 #include "solarus/lowlevel/ItDecoder.h"
 #include "solarus/lowlevel/QuestFiles.h"
 #include "solarus/lowlevel/Debug.h"
@@ -27,7 +26,6 @@
 namespace Solarus {
 
 constexpr int Music::nb_buffers;
-std::unique_ptr<SpcDecoder> Music::spc_decoder = nullptr;
 std::unique_ptr<ItDecoder> Music::it_decoder = nullptr;
 float Music::volume = 1.0;
 std::unique_ptr<Music> Music::current_music = nullptr;
@@ -40,7 +38,6 @@ const std::string Music::unchanged = "same";
  */
 const std::vector<std::string> Music::format_names = {
   "",
-  "spc",
   "it",
   "ogg"
 };
@@ -93,7 +90,6 @@ Music::Music(
 void Music::initialize() {
 
   // initialize the decoding features
-  spc_decoder = std::unique_ptr<SpcDecoder>(new SpcDecoder());
   it_decoder = std::unique_ptr<ItDecoder>(new ItDecoder());
 
   set_volume(100);
@@ -106,7 +102,6 @@ void Music::quit() {
 
   if (is_initialized()) {
     current_music = nullptr;
-    spc_decoder = nullptr;
     it_decoder = nullptr;
   }
 }
@@ -116,7 +111,6 @@ void Music::quit() {
  * \return \c true if the music system is initialized.
  */
 bool Music::is_initialized() {
-  return spc_decoder != nullptr;
 }
 
 /**
@@ -263,10 +257,6 @@ void Music::find_music_file(const std::string& music_id,
     format = IT;
     file_name = file_name_start + ".it";
   }
-  else if (QuestFiles::data_file_exists(file_name_start + ".spc")) {
-    format = SPC;
-    file_name = file_name_start + ".spc";
-  }
 }
 
 /**
@@ -393,10 +383,6 @@ bool Music::update_playing() {
     // Fill it by decoding more data.
     switch (format) {
 
-      case SPC:
-        decode_spc(buffer, 4096);
-        break;
-
       case IT:
         decode_it(buffer, 4096);
         break;
@@ -425,28 +411,6 @@ bool Music::update_playing() {
   return status == AL_PLAYING;
 }
 
-/**
- * \brief Decodes a chunk of SPC data into PCM data for the current music.
- * \param destination_buffer the destination buffer to write
- * \param nb_samples number of samples to write
- */
-void Music::decode_spc(ALuint destination_buffer, ALsizei nb_samples) {
-
-  // decode the SPC data
-  std::vector<ALushort> raw_data(nb_samples);
-  spc_decoder->decode((int16_t*) raw_data.data(), nb_samples);
-
-  // put this decoded data into the buffer
-  alBufferData(destination_buffer, AL_FORMAT_STEREO16, raw_data.data(), nb_samples * 2, 32000);
-
-  int error = alGetError();
-  if (error != AL_NO_ERROR) {
-    std::ostringstream oss;
-    oss << "Failed to fill the audio buffer with decoded SPC data for music file '"
-      << file_name << ": error " << error;
-    Debug::error(oss.str());
-  }
-}
 
 /**
  * \brief Decodes a chunk of IT data into PCM data for the current music.
@@ -563,18 +527,6 @@ bool Music::start() {
   std::string sound_buffer;
   switch (format) {
 
-    case SPC:
-
-      sound_buffer = QuestFiles::data_file_read(file_name);
-
-      // load the SPC data into the SPC decoding library
-      spc_decoder->load((int16_t*) sound_buffer.data(), sound_buffer.size());
-
-      for (int i = 0; i < nb_buffers; i++) {
-        decode_spc(buffers[i], 4096);
-      }
-      break;
-
     case IT:
 
       sound_buffer = QuestFiles::data_file_read(file_name);
@@ -664,9 +616,6 @@ void Music::stop() {
   alDeleteBuffers(nb_buffers, buffers);
 
   switch (format) {
-
-    case SPC:
-      break;
 
     case IT:
       it_decoder->unload();
