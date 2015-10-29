@@ -11,3 +11,6 @@ Thing done :
 Main project related : 
 - Delete some other things, there will be another version of Solarus PSP for my project, performance wise
 - Delete IT support, project work with OGG, supported by the PSP too
+
+
+There is a antilag on maps, this is a great feature and time saving (you can check it by unfreeze the hero while hookshotting and retreat with debug speed modifer)
