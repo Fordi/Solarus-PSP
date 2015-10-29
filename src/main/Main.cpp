@@ -20,51 +20,51 @@
 #include "solarus/lowlevel/Output.h"
 #include "solarus/Arguments.h"
 #include "solarus/MainLoop.h"
+
 #include <iostream>
 #include <string>
 
-namespace {
+#include <pspdisplay.h>
+#include <psppower.h>
+#include <pspdebug.h>
+#include <pspmoduleinfo.h>
+#include <pspthreadman.h>
+#include <psploadexec.h>
+#include <pspctrl.h>
 
-/**
- * \brief Prints the usage of the program.
- * \param argc number of command-line arguments
- * \param argv command-line arguments
- */
-void print_help(const Solarus::Arguments& args) {
+#define printf pspDebugScreenPrintf
 
-  Solarus::Output::initialize(args);
-  std::string binary_name = args.get_program_name();
-  if (binary_name.empty()) {
-    binary_name = "solarus";
-  }
-  std::cout << "Usage: " << binary_name << " [options] [quest_path]"
-    << std::endl << std::endl
-    << "The quest path is the name of a directory that contains either the data"
-    << std::endl
-    << "directory or the data archive (data.solarus or data.solarus.zip) of the game to run."
-    << std::endl
-    << "If the quest path is not specified, the default directory will be: '"
-    << SOLARUS_DEFAULT_QUEST << "'."
-    << std::endl
-    << std::endl
-    << "Options:"
-    << std::endl
-    << "  -help                         shows this help message and exits"
-    << std::endl
-    << "  -no-audio                     disables sounds and musics"
-    << std::endl
-    << "  -no-video                     disables displaying"
-    << std::endl
-    << "  -video-acceleration=yes|no    enables or disables accelerated graphics (default yes)"
-    << std::endl
-    << "  -quest-size=<width>x<height>  sets the size of the drawing area (if compatible with the quest)"
-    << std::endl
-    << "  -win-console=yes|no           allows to see output in a console, only needed on Windows (default no)"
-    << std::endl;
+PSP_MODULE_INFO("Solarus", PSP_MODULE_USER, 1, 2);
+PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
+PSP_HEAP_SIZE_KB(-64);
+PSP_MAIN_THREAD_STACK_SIZE_KB(192);
+
+//deleted print_help
+/* PSP Callbacks */
+/* Exit callback */
+int exit_callback(int arg1, int arg2, void *common) {
+    gLoop = false;
+	return 0;
 }
 
+/* Callback thread */
+int CallbackThread(SceSize args, void *argp) {
+	int cbid;
+	cbid = sceKernelCreateCallback("Exit Callback", exit_callback, NULL);
+	sceKernelRegisterExitCallback(cbid);
+	sceKernelSleepThreadCB();
+	return 0;
 }
 
+/* Sets up the callback thread and returns its thread id */
+int SetupCallbacks(void) {
+	int thid = 0;
+	thid = sceKernelCreateThread("update_thread", CallbackThread, 0x11, 0xFA0, 0, 0);
+	if(thid >= 0) {
+		sceKernelStartThread(thid, 0, 0);
+	}
+	return thid;
+}
 /**
  * \brief Usual entry point of the program.
  *
@@ -78,37 +78,25 @@ void print_help(const Solarus::Arguments& args) {
  * In all cases, this quest path is relative to the working directory,
  * or to the solarus executable directory if no quest is found in the working
  * directory.
- *
- * The following options are supported:
- *   -help                             Shows a help message.
- *   -no-audio                         Disables sounds and musics.
- *   -no-video                         Disables displaying (used for unit tests).
- *   -video-acceleration=yes|no        Enables or disables 2D accelerated graphics if available (default yes).
- *   -quest-size=<width>x<height>      Sets the size of the drawing area (if compatible with the quest).
- *   -win-console=yes|no               Opens a console to see debug output (default: no).
- *                                     Windows only (other systems use their existing console if any).
- *
- * \param argc Number of command-line arguments.
- * \param argv Command-line arguments.
  */
 int main(int argc, char** argv) {
 
   using namespace Solarus;
+  scePowerSetClockFrequency(333,333,166);
+  widescreen = true // stretch the screen to fit the whole psp screen
+  
+  sceKernelDelayThread(2 * 1000 * 1000); //compute a load time, just to be sure everythin loads fine
 
-  Debug::set_abort_on_die(true);  // Better for debugging (get a callstack).
-
+   // PSP additions
+   sceCtrlSetSamplingCycle(0);
+   sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
+	
   // Store the command-line arguments.
   const Arguments args(argc, argv);
 
-  // Check the -help option.
-  if (args.has_argument("-help")) {
-    // Print a help message.
-    print_help(args);
-  }
-  else {
-    // Run the main loop.
-    MainLoop(args).run();
-  }
+  // Run the main loop.
+  MainLoop(args).run(); // run the game
+  sceKernelExitGame();
 
   return 0;
 }
