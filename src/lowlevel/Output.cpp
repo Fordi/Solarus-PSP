@@ -17,18 +17,12 @@
 #include "solarus/lowlevel/Output.h"
 #include "solarus/Arguments.h"
 
-#ifdef WIN32  // For the -win-console flag.
-#  include <windows.h>
-#  include <cstdio>
-#endif
-
 namespace Solarus {
 
 namespace Output {
 
 namespace {
 bool initialized = false;
-bool win_console = false;
 }
 
 /**
@@ -43,18 +37,6 @@ void initialize(const Arguments& args) {
   if (initialized) {
     return;
   }
-
-  if (args.get_argument_value("-win-console") == "yes") {
-#ifdef WIN32
-    // Open a console and redirect output there.
-    // This is only needed on Windows: other systems
-    // use their existing console if any.
-    AllocConsole();
-    freopen("CONOUT$", "w", stdout);
-    freopen("CONOUT$", "w", stderr);
-    win_console = true;
-#endif
-  }
 }
 
 /**
@@ -67,13 +49,6 @@ void quit() {
 
   if (!initialized) {
     return;
-  }
-
-  if (win_console) {
-#ifdef WIN32
-    FreeConsole();
-    win_console = false;
-#endif
   }
 }
 

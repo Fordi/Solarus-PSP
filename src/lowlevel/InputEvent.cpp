@@ -20,9 +20,13 @@
 #include "solarus/lowlevel/Debug.h"
 #include <SDL.h>
 #include <cstdlib>  // std::abs
+#include <pspctrl.h>
 
 namespace Solarus {
-
+	
+	SceCtrlData ctrl;
+	sceCtrlPeekBufferPositive(&ctrl, 1);
+	
 const InputEvent::KeyboardKey InputEvent::directional_keys[] = {
     KEY_RIGHT,
     KEY_UP,
@@ -40,28 +44,7 @@ int InputEvent::joypad_axis_state[2] = { 0, 0 };
 // Keyboard key names.
 std::map<InputEvent::KeyboardKey, std::string> InputEvent::keyboard_key_names = {
 
-    { InputEvent::KEY_NONE,              "" },
-    { InputEvent::KEY_BACKSPACE,         "backspace" },
-    { InputEvent::KEY_TABULATION,        "tab" },
-    { InputEvent::KEY_CLEAR,             "clear" },
-    { InputEvent::KEY_RETURN,            "return" },
-    { InputEvent::KEY_PAUSE,             "pause" },
-    { InputEvent::KEY_ESCAPE,            "escape" },
     { InputEvent::KEY_SPACE,             "space" },
-    { InputEvent::KEY_EXCLAMATION_MARK,  "!" },
-    { InputEvent::KEY_DOULE_QUOTE,       "\"" },
-    { InputEvent::KEY_HASH,              "#" },
-    { InputEvent::KEY_DOLLAR,            "$" },
-    { InputEvent::KEY_AMPERSAND,         "&" },
-    { InputEvent::KEY_SINGLE_QUOTE,      "'" },
-    { InputEvent::KEY_LEFT_PARENTHESIS,  "(" },
-    { InputEvent::KEY_RIGHT_PARENTHESIS, ")" },
-    { InputEvent::KEY_ASTERISK,          "*" },
-    { InputEvent::KEY_PLUS,              "+" },
-    { InputEvent::KEY_COMMA,             "," },
-    { InputEvent::KEY_MINUS,             "-" },
-    { InputEvent::KEY_PERIOD,            "." },
-    { InputEvent::KEY_SLASH,             "/" },
     { InputEvent::KEY_0,                 "0" },
     { InputEvent::KEY_1,                 "1" },
     { InputEvent::KEY_2,                 "2" },
@@ -89,93 +72,15 @@ std::map<InputEvent::KeyboardKey, std::string> InputEvent::keyboard_key_names = 
     { InputEvent::KEY_b,                 "b" },
     { InputEvent::KEY_c,                 "c" },
     { InputEvent::KEY_d,                 "d" },
-    { InputEvent::KEY_e,                 "e" },
-    { InputEvent::KEY_f,                 "f" },
-    { InputEvent::KEY_g,                 "g" },
-    { InputEvent::KEY_h,                 "h" },
-    { InputEvent::KEY_i,                 "i" },
-    { InputEvent::KEY_j,                 "j" },
-    { InputEvent::KEY_k,                 "k" },
-    { InputEvent::KEY_l,                 "l" },
-    { InputEvent::KEY_m,                 "m" },
-    { InputEvent::KEY_n,                 "n" },
-    { InputEvent::KEY_o,                 "o" },
-    { InputEvent::KEY_p,                 "p" },
-    { InputEvent::KEY_q,                 "q" },
-    { InputEvent::KEY_r,                 "r" },
     { InputEvent::KEY_s,                 "s" },
-    { InputEvent::KEY_t,                 "t" },
-    { InputEvent::KEY_u,                 "u" },
     { InputEvent::KEY_v,                 "v" },
     { InputEvent::KEY_w,                 "w" },
     { InputEvent::KEY_x,                 "x" },
-    { InputEvent::KEY_y,                 "y" },
-    { InputEvent::KEY_z,                 "z" },
-    { InputEvent::KEY_DELETE,            "delete" },
-    { InputEvent::KEY_KP0,               "kp 0" },
-    { InputEvent::KEY_KP1,               "kp 1" },
-    { InputEvent::KEY_KP2,               "kp 2" },
-    { InputEvent::KEY_KP3,               "kp 3" },
-    { InputEvent::KEY_KP4,               "kp 4" },
-    { InputEvent::KEY_KP5,               "kp 5" },
-    { InputEvent::KEY_KP6,               "kp 6" },
-    { InputEvent::KEY_KP7,               "kp 7" },
-    { InputEvent::KEY_KP8,               "kp 8" },
-    { InputEvent::KEY_KP9,               "kp 9" },
-    { InputEvent::KEY_KP_PERIOD,         "kp ." },
-    { InputEvent::KEY_KP_DIVIDE,         "kp /" },
-    { InputEvent::KEY_KP_MULTIPLY,       "kp *" },
-    { InputEvent::KEY_KP_MINUS,          "kp -" },
-    { InputEvent::KEY_KP_PLUS,           "kp +" },
-    { InputEvent::KEY_KP_ENTER,          "kp return" },
-    { InputEvent::KEY_KP_EQUALS,         "kp =" },
     { InputEvent::KEY_UP,                "up" },
     { InputEvent::KEY_DOWN,              "down" },
     { InputEvent::KEY_RIGHT,             "right" },
-    { InputEvent::KEY_LEFT,              "left" },
-    { InputEvent::KEY_INSERT,            "insert" },
-    { InputEvent::KEY_HOME,              "home" },
-    { InputEvent::KEY_END,               "end" },
-    { InputEvent::KEY_PAGE_UP,           "page up" },
-    { InputEvent::KEY_PAGE_DOWN,         "page down" },
-    { InputEvent::KEY_F1,                "f1" },
-    { InputEvent::KEY_F2,                "f2" },
-    { InputEvent::KEY_F3,                "f3" },
-    { InputEvent::KEY_F4,                "f4" },
-    { InputEvent::KEY_F5,                "f5" },
-    { InputEvent::KEY_F6,                "f6" },
-    { InputEvent::KEY_F7,                "f7" },
-    { InputEvent::KEY_F8,                "f8" },
-    { InputEvent::KEY_F9,                "f9" },
-    { InputEvent::KEY_F10,               "f10" },
-    { InputEvent::KEY_F11,               "f11" },
-    { InputEvent::KEY_F12,               "f12" },
-    { InputEvent::KEY_F13,               "f13" },
-    { InputEvent::KEY_F14,               "f14" },
-    { InputEvent::KEY_F15,               "f15" },
-    { InputEvent::KEY_NUMLOCK,           "num lock" },
-    { InputEvent::KEY_CAPSLOCK,          "caps lock" },
-    { InputEvent::KEY_SCROLLOCK,         "scroll lock" },
-    { InputEvent::KEY_RIGHT_SHIFT,       "right shift" },
-    { InputEvent::KEY_LEFT_SHIFT,        "left shift" },
-    { InputEvent::KEY_RIGHT_CONTROL,     "right control" },
-    { InputEvent::KEY_LEFT_CONTROL,      "left control" },
-    { InputEvent::KEY_RIGHT_ALT,         "right alt" },
-    { InputEvent::KEY_LEFT_ALT,          "left alt" },
-    { InputEvent::KEY_RIGHT_META,        "right meta" },
-    { InputEvent::KEY_LEFT_META,         "left meta" }
+    { InputEvent::KEY_LEFT,              "left" }
 };
-
-// Mouse button names.
-std::map<InputEvent::MouseButton, std::string> InputEvent::mouse_button_names = {
-    { InputEvent::MOUSE_BUTTON_NONE,   "" },
-    { InputEvent::MOUSE_BUTTON_LEFT,   "left" },
-    { InputEvent::MOUSE_BUTTON_MIDDLE, "middle" },
-    { InputEvent::MOUSE_BUTTON_RIGHT,  "right" },
-    { InputEvent::MOUSE_BUTTON_X1,     "x1" },
-    { InputEvent::MOUSE_BUTTON_X2,     "x2" }
-};
-
 
 /**
  * \brief Initializes the input event manager.
@@ -398,15 +303,6 @@ bool InputEvent::is_joypad_button_down(int button) {
   return SDL_JoystickGetButton(joystick, button) != 0;
 }
 
-/**
- * \brief Returns whether a mouse button is currently down.
- * \param button A mouse button.
- * \return \c true if this joypad button is currently down.
- */
-bool InputEvent::is_mouse_button_down(MouseButton button) {
-
-  return (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(button)) != 0;
-}
 
 /**
  * \brief Returns the state of a joypad axis.
@@ -486,21 +382,6 @@ int InputEvent::get_joypad_hat_direction(int hat) {
   return result;
 }
 
-/**
- * \brief Returns the x and y position of the mouse.
- * Values are in quest size coordinates and relative to the viewport.
- * \return A rectangle filled with the x and y position of the mouse,
- * in which the width and height are set to 1.
- * Returns a flat Rectangle if the position is not inside the viewport.
- */
-Rectangle InputEvent::get_global_mouse_position() {
-
-  int x, y;
-
-  SDL_GetMouseState(&x, &y);
-
-  return Video::get_scaled_position(Rectangle(x, y, 1, 1));
-}
 
 
 // event type
@@ -535,17 +416,6 @@ bool InputEvent::is_joypad_event() const {
     || internal_event.type == SDL_JOYBUTTONUP;
 }
 
-/**
- * \brief Returns whether this event is a mouse event.
- * \return true if this is a mouse event.
- */
-bool InputEvent::is_mouse_event() const {
-
-  return internal_event.type == SDL_MOUSEMOTION
-    || internal_event.type == SDL_MOUSEBUTTONDOWN
-    || internal_event.type == SDL_MOUSEBUTTONUP
-    || internal_event.type == SDL_MOUSEWHEEL;
-}
 
 /**
  * \brief Returns whether this event is a window event.
@@ -1038,110 +908,7 @@ bool InputEvent::is_joypad_hat_centered() const {
 }
 
 
-// mouse
-
-/**
- * \brief Returns whether this event is a mouse event.
- * corresponding to pressing any button.
- * \return true if this event corresponds to pressing a mouse button.
- */
-bool InputEvent::is_mouse_button_pressed() const {
-
-  return internal_event.type == SDL_MOUSEBUTTONDOWN;
-}
-
-/**
- * \brief Returns whether this event is a mouse event.
- * corresponding to pressing a specific button.
- * \param button the button to test.
- * \return true if this event corresponds to pressing that mouse button.
- */
-bool InputEvent::is_mouse_button_pressed(MouseButton button) const {
-
-  return is_mouse_button_pressed()
-    && static_cast<MouseButton>(internal_event.button.button) == button;
-}
-
-/**
- * \brief Returns whether this event is a mouse event.
- * corresponding to releasing a any button.
- * \return true if this event corresponds to releasing a mouse button.
- */
-bool InputEvent::is_mouse_button_released() const {
-
-  return internal_event.type == SDL_MOUSEBUTTONUP;
-}
-
-/**
- * \brief Returns whether this event is a mouse event.
- * corresponding to releasing a specific button.
- * \param button the button to test.
- * \return true if this event corresponds to releasing that mouse button.
- */
-bool InputEvent::is_mouse_button_released(MouseButton button) const {
-
-  return is_mouse_button_released()
-    && static_cast<MouseButton>(internal_event.button.button) == button;
-}
-
-/**
- * \brief Returns the button that was pressed or released during
- * this mouse event.
- *
- * If this is not a mouse event, MOUSE_BUTTON_NONE is returned.
- * \return The button of this mouse event.
- */
-InputEvent::MouseButton InputEvent::get_mouse_button() const {
-
-  if (!is_mouse_event()) {
-    return MOUSE_BUTTON_NONE;
-  }
-
-  return static_cast<MouseButton>(internal_event.button.button);
-}
-
-/**
- * \brief Returns the x and y position of this mouse event, if any.
- * Values are in quest size coordinates and relative to the viewport.
- * \return A rectangle filled with the x and y position of the mouse,
- * in which the width and height are set to 1.
- * Returns a flat Rectangle if the position is not inside the viewport.
- */
-Rectangle InputEvent::get_mouse_position() const {
-
-  Debug::check_assertion(is_mouse_event(), "Event is not a mouse event");
-
-  return Video::get_scaled_position(
-      Rectangle(internal_event.button.x, internal_event.button.y, 1, 1));
-}
-
-/**
- * \brief Returns the Lua name of a mouse button.
- * \param button A mouse button.
- * \return The corresponding name (or an empty string for MOUSE_BUTTON_NONE).
- */
-const std::string& InputEvent::get_mouse_button_name(MouseButton button) {
-
-  return mouse_button_names[button];
-}
-
-/**
- * \brief Returns a mouse button given its name.
- * \param button_name The name of a mouse button.
- * \return The corresponding button, or MOUSE_BUTTON_NONE if this name is
- * empty or unknown.
- */
-InputEvent::MouseButton InputEvent::get_mouse_button_by_name(const std::string& button_name) {
-
-  for (const auto& kvp: mouse_button_names) {
-    if (kvp.second == button_name) {
-      return kvp.first;
-    }
-  }
-  return MOUSE_BUTTON_NONE;
-}
-
-
+/
 // functions common to keyboard and joypad events
 
 /**
@@ -1213,7 +980,6 @@ bool InputEvent::is_pressed() const {
   return is_keyboard_key_pressed()
     || is_direction_pressed()
     || is_joypad_button_pressed()
-    || is_mouse_button_pressed();
 }
 
 /**
@@ -1260,7 +1026,6 @@ bool InputEvent::is_released() const {
     || is_joypad_button_released()
     || (is_joypad_axis_moved() && is_joypad_axis_centered())
     || (is_joypad_hat_moved() && is_joypad_hat_centered())
-    || is_mouse_button_released();
 }
 
 // window event
