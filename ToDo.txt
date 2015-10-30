@@ -1,16 +1,31 @@
 What is needed for the PSP version to work at a descent speed :
-- Delete HQx Shaders, useless, PSP wouldn't handle this anyway.
-- Delete SPC support, it is stated to take some ressources and it is useless since IT replaced it
-- Rewrite the Audio & Video and apply PSP resolution (The worst part, Navi's Quest port will help)
-- Rebind keyboard map to PSP map
 
-Thing done :
-- Use the 64mb of the PSP slim, brite
-- HQx shaders are gone.
+- Rewrite the Audio & Video and apply PSP resolution (The worst part, Navi's Quest port will help)
+- search for physfs lib for psp, it exists but need a lot of web search.
+
+[DONE] Use the 64mb of the PSP slim, brite
+[DONE] HQx shaders are gone.
+[DONE] Rebind keyboard map to PSP map (Todo : Select is unused, it need to be binded to something)
+[DONE] Delete HQx Shaders, useless, PSP wouldn't handle this anyway.
+[DONE] Delete SPC support, it is stated to take some ressources and it is useless since IT replaced it
+[DONE] Delete Mouse Input support, PSP don't have any, I don't know why it should still exist
 
 Main project related : 
 - Delete some other things, there will be another version of Solarus PSP for my project, performance wise
 - Delete IT support, project work with OGG, supported by the PSP too
 
 
-There is a antilag on maps, this is a great feature and time saving (you can check it by unfreeze the hero while hookshotting and retreat with debug speed modifer)
+
+Controls (Simplist)
+
+No Joystick support
+
+UP, DOWN, LEFT, RIGHT = Movement
+CROSS                 = Action
+SQUARE                = Attack
+TRIANGLE              = Item_1
+CIRCLE                = Item_2
+L-TRIGGER             = Unassigned in Solarus, used for Dash Slash in Eternal Struggle (key = w)
+R-TRIGGER             = Unassigned in Solarus, don't know what this input will do, but it is binded (key = s)
+START                 = Pause
+SELECT                = Unassigned in Solarus, Used as Monster Encyclopedia in ROTH SE
