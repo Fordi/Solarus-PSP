@@ -1,5 +1,6 @@
 #Obsolete makefile
 #TODO : Update Objects & Library
+#This file is used for PSP compilation
 
 TARGET = Solarus
 OBJS = main.o
@@ -9,7 +10,7 @@ CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
 EXTRA_TARGETS = EBOOT.PBP
-PSP_EBOOT_TITLE = Solarus Test
+PSP_EBOOT_TITLE = Solarus Quest Launcher
 
 PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak
