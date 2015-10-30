@@ -1,7 +1,7 @@
 # Solarus-PSP
 Attempt to Port of Solarus 1.4.4 to the PSP
 
-Current State : Can't be run on PSP
+Current State : Cleaning code
 
 Using tools & Compiler : PSPSdk
 This repo will not be regularly updated, mostly because my work atm is to focus on the Quest.
