@@ -2,7 +2,7 @@ What is needed for the PSP version to work at a descent speed :
 
 - Rewrite the Audio & Video and apply PSP resolution (The worst part, Navi's Quest port will help)
 
-[DONE] Port Physfs for the PSP, it is humanly impossible to give any reason to this success as I am a complete shit at porting libraries
+[DONE] Port Physfs
 [DONE] Use the 64mb of the PSP slim, brite
 [DONE] HQx shaders are gone, useless, the PSP doesn't have that much power and battery life would be sucked away.
 [DONE] Rebind keyboard map to PSP map (Todo : Select is unused, it need to be binded to something)
