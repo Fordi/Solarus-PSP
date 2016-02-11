@@ -1,7 +1,9 @@
 What is needed for the PSP version to work at a descent speed :
 
-- Rewrite the Audio & Video and apply PSP resolution (The worst part, Navi's Quest port will help)
+- Test the current build, all libraries has been ported to the PSP.
+Everything has been redone for 1.4.5. 
 
+[DONE] Rewrite the Audio & Video and apply PSP resolution (OpenAl is already ported to the PSP)
 [DONE] Port Physfs
 [DONE] Use the 64mb of the PSP slim, brite
 [DONE] HQx shaders are gone, useless, the PSP doesn't have that much power and battery life would be sucked away.
@@ -9,12 +11,6 @@ What is needed for the PSP version to work at a descent speed :
 [DONE] Delete HQx Shaders, useless, PSP wouldn't handle this anyway.
 [DONE] Delete SPC support, it is stated to take some ressources and it is useless since IT replaced it
 [DONE] Delete Mouse Input support, PSP don't have any, I don't know why it should still exist
-
-
-Main project related : 
-- Delete some other things, there will be another version of Solarus PSP for my project, performance wise
-- Delete IT support, project work with OGG, supported by the PSP too
-
 
 
 Controls (Simplist)
