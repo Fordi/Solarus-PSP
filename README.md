@@ -5,6 +5,8 @@ Work in Progress port of the Solarus Engine (Version 1.4.5) to the PlayStation P
 Current State : Testing
 Build Passing : Not Tested Yet
 
+I really don't know if the engine would run 100% fine, but a canceled Wii port (http://forum.solarus-games.org/index.php/topic,27.0.html) run at fullspeed, on 24mb of ram.
+
 Using tools & Compiler : PSPSdk
 
 Would Feature
