@@ -1,12 +1,18 @@
 # Solarus-PSP
-Attempt to Port of Solarus 1.4.4 to the PSP
 
-Current State : Cleaning code
+Work in Progress port of the Solarus Engine (Version 1.4.5) to the PlayStation Portable.
+
+Current State : Testing
+Build Passing : Not Tested Yet
 
 Using tools & Compiler : PSPSdk
-This repo will not be regularly updated, mostly because my work atm is to focus on the Quest.
 
-Solarus is a game engine that allows user to play their Quests written in LUA (interpreter)
-Solarus is a engine made by Christopho for Zelda Solarus DX.
+Would Feature
+Pmf video -> Allow user to customize the program preview, for their personnal project
+snd0.at3 -> Sound played when highlighting the program
+Other Images
 
-It wouldn't be playable on PSP 1000 because of small ram limitation (32mb vs 64 on 2000, 3000 and Go)
+Solarus is a A-RPG (Zelda like) engine written in C++, it can play user-made quests written in Lua.
+It is open-source.
+Check it's official GIT for more information :
+-> https://github.com/christopho/solarus
