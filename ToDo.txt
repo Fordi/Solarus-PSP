@@ -3,7 +3,7 @@ What is needed for the PSP version to work at a descent speed :
 - Test the current build, all libraries has been ported to the PSP.
 Everything has been redone for 1.4.5. 
 
-[DONE] Rewrite the Audio & Video and apply PSP resolution (OpenAl is already ported to the PSP)
+[DONE] Rewrite the Audio & Video and apply PSP resolution (OpenAl & SDL_Mixer is already ported to the PSP)
 [DONE] Port Physfs
 [DONE] Use the 64mb of the PSP slim, brite
 [DONE] HQx shaders are gone, useless, the PSP doesn't have that much power and battery life would be sucked away.
